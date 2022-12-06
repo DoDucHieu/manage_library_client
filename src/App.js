@@ -1,9 +1,8 @@
-import { Test } from "./container/test/Test";
-
+import { Layout } from "./container/Layout";
 const App = () => {
   return (
     <>
-      <Test />
+      <Layout />
     </>
   );
 };
