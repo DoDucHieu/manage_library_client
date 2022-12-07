@@ -1,9 +1,26 @@
-import "../../asset/style/common/header.scss";
-const Header = () => {
+import { Breadcrumb } from "antd";
+import { Layout } from "antd";
+
+export const Header = () => {
   return (
     <>
-      <div className="header">header</div>
+      <Layout.Header
+        style={{
+          padding: 0,
+          display: "flex",
+          alignItems: "center",
+          background: "rgba(255, 255, 255, 0.2)",
+        }}
+      >
+        <Breadcrumb
+          style={{
+            margin: "16px",
+          }}
+        >
+          <Breadcrumb.Item>User</Breadcrumb.Item>
+          <Breadcrumb.Item>Bill</Breadcrumb.Item>
+        </Breadcrumb>
+      </Layout.Header>
     </>
   );
 };
-export default Header;

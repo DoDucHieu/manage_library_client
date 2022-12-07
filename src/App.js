@@ -1,10 +1,12 @@
-import { Layout } from "./container/Layout";
+import { BrowserRouter } from "react-router-dom";
+import LayoutWrapperComponent from "./component/LayoutWrapperComponent";
 const App = () => {
   return (
     <>
-      <Layout />
+      <BrowserRouter>
+        <LayoutWrapperComponent />
+      </BrowserRouter>
     </>
   );
 };
-
 export default App;
