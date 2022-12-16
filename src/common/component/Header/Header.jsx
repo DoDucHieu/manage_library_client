@@ -10,6 +10,7 @@ export const Header = () => {
           display: "flex",
           alignItems: "center",
           background: "rgba(255, 255, 255, 0.2)",
+          height: 80,
         }}
       >
         <Breadcrumb

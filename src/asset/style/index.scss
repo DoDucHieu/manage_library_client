@@ -2,3 +2,37 @@
     margin: 0;
     padding: 0;
 }
+
+.layoutWrapperComponent{
+    .ant-layout-sider{
+        max-width: none !important;
+        min-width: none !important;
+        flex: 0 0 300px !important;
+        position: relative;
+    }
+    .sidebar_logo{
+        width: 100%;
+        margin: 32px 0px;
+        display: flex;
+        justify-content: center;
+        img{
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+        }
+    }
+    .sidebar_login-logout{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        Button{
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 0px;
+            background-color: #92bfff;
+            color: white;
+        }
+    }
+
+}

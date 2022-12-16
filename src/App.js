@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import LayoutWrapperComponent from "./component/LayoutWrapperComponent";
+import LayoutWrapperComponent from "./common/component/LayoutWrapperComponent";
 const App = () => {
   return (
     <>
