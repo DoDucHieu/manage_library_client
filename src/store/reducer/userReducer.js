@@ -1,23 +1,33 @@
 import { actionType } from "../action/actionType";
 
 const initialState = {
-  email: "",
+  userName: "",
   accessToken: "",
+  refreshToken:""
 };
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionType.LOGIN_SUCCESS:
+    case actionType.SIGN_UP_SUCCESS:
       return {
         ...state,
-        email: action.payload.email,
+        userName: action.payload.userName,
         accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
       };
-    case actionType.LOG_OUT:
+    case actionType.SIGN_IN_SUCCESS:
       return {
         ...state,
-        email: "",
+        userName: action.payload.userName,
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
+      };
+    case actionType.SIGN_OUT:
+      return {
+        ...state,
+        userName: "",
         accessToken: "",
+        refreshToken: "",
       };
 
     default:

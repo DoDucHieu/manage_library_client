@@ -1,13 +1,15 @@
-import { useState } from "react";
 import libraryImg from "../../../asset/img/library.png";
 import {
-  DesktopOutlined,
+  ShoppingCartOutlined,
   FileOutlined,
-  PieChartOutlined,
+  HomeOutlined,
   UserOutlined,
+  LogoutOutlined
 } from "@ant-design/icons";
-import { Button, Layout, Menu } from "antd";
+import { Layout, Menu } from "antd";
 import { useNavigate } from "react-router-dom";
+import {useDispatch} from "react-redux"
+import { userAction } from "../../../store/action/userAction";
 
 function getItem(label, key, icon, children) {
   return {
@@ -18,8 +20,8 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem("Trang chủ", "1", <PieChartOutlined />),
-  getItem("Giỏ hàng", "2", <DesktopOutlined />),
+  getItem("Trang chủ", "1", <HomeOutlined />),
+  getItem("Giỏ hàng", "2", <ShoppingCartOutlined />),
   getItem("Tài khoản", "sub1", <UserOutlined />, [
     getItem("Information", "3"),
     getItem("Change password", "4"),
@@ -30,6 +32,8 @@ const items = [
 
 export const SideBar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleNavigate = (key) => {
     switch (Number(key)) {
       case 1: {
@@ -44,6 +48,16 @@ export const SideBar = () => {
         break;
     }
   };
+
+  const handleSignOut = async () =>{
+    try {
+      await dispatch(userAction.signOut());
+    } 
+    catch (e) {
+        console.log(e);
+    }
+  }
+
   return (
     <Layout.Sider>
       <div className="sidebar_logo">
@@ -60,13 +74,16 @@ export const SideBar = () => {
         }}
       />
       <div className="sidebar_login-logout">
-        <Button
-          onClick={() => {
-            navigate("/sign-in");
-          }}
-        >
-          Log out
-        </Button>
+        <div className="user-infor">
+          <img src={libraryImg} alt="" className="avatar"/>
+          <div className="infor">
+            <label>User name</label>
+            <label>Email@gmail.com</label>
+          </div>
+        </div>
+        <div className="logout-icon">
+          <LogoutOutlined style={{color:"white", fontSize:20, cursor:"pointer"}} onClick={()=>{handleSignOut()}}/>
+        </div>
       </div>
     </Layout.Sider>
   );

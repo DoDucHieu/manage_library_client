@@ -11,12 +11,27 @@ import {
   Card,
 } from "antd";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { bookApi } from "../../api/bookApi";
 import "../../asset/style/book/AddBook.scss";
 
 export const AddBook = () => {
   const [fileList, setFileList] = useState([]);
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const navigate = useNavigate();
+
+  const onFinish = async (values) => {
+    try {
+      const data = {
+        ...values,
+        imgUrl:"hello world"
+      }
+      console.log("Success:", data);
+      await bookApi.create(data);
+      navigate("/")
+    } catch (error) {
+      console.log("err: ", error);
+    }
+
   };
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -55,11 +70,12 @@ export const AddBook = () => {
               wrapperCol={{
                 span: 20,
               }}
+              onFinish={onFinish}
             >
               <Form.Item>
                 <Form.Item
-                  label="Tên sách"
-                  name="bookName"
+                  label="Tiêu đề"
+                  name="title"
                   rules={[
                     { required: true, message: "Tiêu đề không được bỏ trống" },
                   ]}
@@ -120,16 +136,33 @@ export const AddBook = () => {
                   <InputNumber style={{ width: "100%" }} />
                 </Form.Item>
               </Form.Item>
-              <Form.Item
-                label="Thể loại"
-                name="category"
-                rules={[
-                  { required: true, message: "Tác giả không được bỏ trống" },
-                ]}
-              >
-                <Select>
-                  <Select.Option value="demo">Demo</Select.Option>
+              <Form.Item>
+                <Form.Item
+                  label="Thể loại"
+                  name="category"
+                  rules={[
+                    { required: true, message: "Thể loại không được bỏ trống" },
+                  ]}
+                  style={{ display: "inline-block", width: "calc(50% - 8px)" }}
+                >
+                  <Select>
+                    <Select.Option value="demo">Demo</Select.Option>
                 </Select>
+                </Form.Item>
+                <Form.Item
+                  label="Giá tiền"
+                  name="price"
+                  rules={[
+                    { required: true, message: "Giá tiền không được bỏ trống" },
+                  ]}
+                  style={{
+                    display: "inline-block",
+                    width: "calc(50% - 8px)",
+                    marginLeft: 16,
+                  }}
+                >
+                  <Input />
+                </Form.Item>
               </Form.Item>
             </Form>
           </Col>
@@ -149,8 +182,11 @@ export const AddBook = () => {
             </Upload>
           </Col>
         </Row>
-        <Button htmlType="submit" form="addBook-form">
-          Submit
+        <Button htmlType="submit" form="addBook-form" type="primary" style={{width:100, marginTop:32}}>
+          Thêm
+        </Button>
+        <Button style={{width:100, marginTop:32, marginLeft:16}} onClick={()=>{navigate("/")}}>
+          Hủy
         </Button>
       </Card>
     </>

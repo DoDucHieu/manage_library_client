@@ -1,15 +1,36 @@
 import { Button, Col, Form, Input, Row } from "antd";
 import img from "../../asset/img/docker.jpeg";
 import loginIcon from "../../asset/img/login.png";
+import { useDispatch, useSelector } from "react-redux";
+import { userAction } from "../../store/action/userAction";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
 
 export const SignUp = () => {
   const [signUpForm] = Form.useForm();
-  const onFinish = (values) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const userAccessToken = useSelector(
+    (state) => state.userReducer.accessToken,
+  );  
+  useEffect(()=>{
+    userAccessToken && navigate("/")
+  },[userAccessToken])
+
+  const onFinish = async(values) => {
     console.log("Success:", values);
+    try {
+      await dispatch(userAction.signUp(values));
+    } 
+    catch (e) {
+        console.log(e);
+    }
   };
 
   return (
-    <Row>
+    <Row style={{ height: "100vh" }}>
       <Col span={12} style={{ background: "gray" }}>
         <img
           src={img}
@@ -46,7 +67,7 @@ export const SignUp = () => {
           >
             <Form.Item
               label="Username"
-              name="username"
+              name="userName"
               rules={[
                 { required: true, message: "Please input your username!" },
               ]}
@@ -94,6 +115,7 @@ export const SignUp = () => {
                 Login
               </Button>
             </Form.Item>
+            <span style={{color:"green", fontSize:14, cursor:"pointer"}} onClick={()=>{navigate("/sign-in")}}>Back to sign in!</span>
           </Form>
         </div>
       </Col>

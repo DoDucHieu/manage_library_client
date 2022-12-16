@@ -2,9 +2,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { configureStore } from "../store/store";
 
-const axiosConfig = axios.create({ baseURL: "http://localhost:8080" });
+const axiosConfig = axios.create({ baseURL: process.env.REACT_APP_BASE_URL });
 
-// Add a request interceptor
 axiosConfig.interceptors.request.use(
   (config) => {
     const userAccessToken =
@@ -13,7 +12,6 @@ axiosConfig.interceptors.request.use(
     if (userAccessToken) {
       config.headers["Authorization"] = `Bearer ${userAccessToken}`;
     }
-
     return config;
   },
   (error) => {
@@ -22,19 +20,14 @@ axiosConfig.interceptors.request.use(
   }
 );
 
-// Add a response interceptor
 axiosConfig.interceptors.response.use(
   (response) => {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
     if (response.data?.errCode === 1) {
       toast(response.data.errMessage, { type: "error" });
     }
     return response;
   },
   (error) => {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
     const message =
       error?.response?.data?.errMessage || error?.message || "Request error";
     toast(message, { type: "error" });
