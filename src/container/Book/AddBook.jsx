@@ -38,7 +38,7 @@ export const AddBook = () => {
   return (
     <>
       <Card
-        title="Add new book"
+        title="Thêm sách"
         bordered={false}
         style={{ padding: "0px 24px" }}
         className="addBook"
@@ -58,8 +58,8 @@ export const AddBook = () => {
             >
               <Form.Item>
                 <Form.Item
-                  label="Title"
-                  name="year"
+                  label="Tên sách"
+                  name="bookName"
                   rules={[
                     { required: true, message: "Tiêu đề không được bỏ trống" },
                   ]}
@@ -68,8 +68,8 @@ export const AddBook = () => {
                   <Input />
                 </Form.Item>
                 <Form.Item
-                  label="Author"
-                  name="month"
+                  label="Tác giả"
+                  name="author"
                   rules={[
                     { required: true, message: "Tác giả không được bỏ trống" },
                   ]}
@@ -83,7 +83,8 @@ export const AddBook = () => {
                 </Form.Item>
               </Form.Item>
               <Form.Item
-                label="Description"
+                label="Mô tả"
+                name="description"
                 rules={[
                   { required: true, message: "Mô tả không được bỏ trống" },
                 ]}
@@ -92,7 +93,8 @@ export const AddBook = () => {
               </Form.Item>
               <Form.Item>
                 <Form.Item
-                  label="Date publish"
+                  label="Ngày xuất bản"
+                  name="datePublish"
                   style={{ display: "inline-block", width: "calc(50% - 8px)" }}
                   rules={[
                     {
@@ -104,18 +106,23 @@ export const AddBook = () => {
                   <DatePicker style={{ width: "100%" }} />
                 </Form.Item>
                 <Form.Item
-                  label="Page number"
+                  label="Số trang"
+                  name="pageNumber"
                   style={{
                     display: "inline-block",
                     width: "calc(50% - 8px)",
                     marginLeft: 16,
                   }}
+                  rules={[
+                    { required: true, message: "Số trang không được bỏ trống" },
+                  ]}
                 >
                   <InputNumber style={{ width: "100%" }} />
                 </Form.Item>
               </Form.Item>
               <Form.Item
-                label="Category"
+                label="Thể loại"
+                name="category"
                 rules={[
                   { required: true, message: "Tác giả không được bỏ trống" },
                 ]}
