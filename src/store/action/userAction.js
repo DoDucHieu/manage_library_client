@@ -1,7 +1,6 @@
 import { actionType } from "./actionType";
 import { userApi } from "../../api/userApi";
 
-
 const signUp = (userInfor) => {
   return async (dispatch, getState) => {
     const res = await userApi.signUp(userInfor);

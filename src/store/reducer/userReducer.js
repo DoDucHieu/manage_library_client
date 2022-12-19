@@ -3,7 +3,7 @@ import { actionType } from "../action/actionType";
 const initialState = {
   userName: "",
   accessToken: "",
-  refreshToken:""
+  refreshToken: "",
 };
 
 export const userReducer = (state = initialState, action) => {

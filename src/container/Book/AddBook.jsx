@@ -5,53 +5,73 @@ import {
   Form,
   Input,
   Select,
-  Upload,
   DatePicker,
   InputNumber,
   Card,
 } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { bookApi } from "../../api/bookApi";
 import "../../asset/style/book/AddBook.scss";
+import { storage } from "../../firebaseConfig";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
+import { ModalLoading } from "../../common/component/Modal/ModalLoading";
 
 export const AddBook = () => {
-  const [fileList, setFileList] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
+
+  console.log("CHECK: ", selectedFile);
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    }
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const uploadImage = async () => {
+    if (!selectedFile) return;
+    const imageRef = ref(storage, `image/${selectedFile.name + v4()}`);
+    await uploadBytesResumable(imageRef, selectedFile);
+    const res = await getDownloadURL(imageRef);
+    console.log("upload success!", res);
+    return res;
+  };
 
   const onFinish = async (values) => {
     try {
+      setLoading(true);
+      const imgUrl = await uploadImage();
       const data = {
         ...values,
-        imgUrl:"hello world"
-      }
-      console.log("Success:", data);
+        imgUrl: `${imgUrl}`,
+      };
+      console.log("URL: ", imgUrl);
       await bookApi.create(data);
-      navigate("/")
+      navigate("/");
     } catch (error) {
       console.log("err: ", error);
+    } finally {
+      setLoading(false);
     }
+  };
 
-  };
-  const onChange = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
-  };
-  const onPreview = async (file) => {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
-  };
   return (
     <>
+      {loading && <ModalLoading />}
       <Card
         title="Thêm sách"
         bordered={false}
@@ -147,7 +167,7 @@ export const AddBook = () => {
                 >
                   <Select>
                     <Select.Option value="demo">Demo</Select.Option>
-                </Select>
+                  </Select>
                 </Form.Item>
                 <Form.Item
                   label="Giá tiền"
@@ -167,25 +187,29 @@ export const AddBook = () => {
             </Form>
           </Col>
           <Col span={8}>
-            <Upload
-              className="addBook-upload"
-              listType="picture-card"
-              fileList={fileList}
-              onChange={onChange}
-              onPreview={onPreview}
-              beforeUpload={(file) => {
-                setFileList([file]);
-                return false;
-              }}
-            >
-              + Upload
-            </Upload>
+            <div className="upload">
+              <label for="file-upload" className="custom-file-upload">
+                Upload
+              </label>
+              <input type="file" id="file-upload" onChange={onSelectFile} />
+              {selectedFile && <img src={preview} className="preview-img" />}
+            </div>
           </Col>
         </Row>
-        <Button htmlType="submit" form="addBook-form" type="primary" style={{width:100, marginTop:32}}>
+        <Button
+          htmlType="submit"
+          form="addBook-form"
+          type="primary"
+          style={{ width: 100, marginTop: 32 }}
+        >
           Thêm
         </Button>
-        <Button style={{width:100, marginTop:32, marginLeft:16}} onClick={()=>{navigate("/")}}>
+        <Button
+          style={{ width: 100, marginTop: 32, marginLeft: 16 }}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           Hủy
         </Button>
       </Card>
