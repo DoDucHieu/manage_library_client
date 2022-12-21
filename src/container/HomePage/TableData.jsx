@@ -5,11 +5,13 @@ import { bookApi } from "../../api/bookApi";
 import { useNavigate } from "react-router-dom";
 import moment from "moment/moment";
 import CONSTANT from "../../common/constant";
-import { ModalConfirmDelete } from "../../common/component/Modal/ModalConfirmDelete";
+import { ModalConfirm } from "../../common/component/Modal/ModalConfirm";
 
 const TableData = () => {
-  const [listBook, setListBook] = useState([]);
   const navigate = useNavigate();
+  const [listBook, setListBook] = useState([]);
+  const[openModal, setOpenModal] = useState(false);
+  const [bookId, setBookId] = useState(undefined);
   const columns = [
     {
       title: "Tiêu đề",
@@ -38,18 +40,26 @@ const TableData = () => {
       render: (text, record) => (
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <EyeOutlined
+            style={{color:"blue"}}
             onClick={() => {
               navigate(`/detail/${record._id}`);
             }}
           />
-          <DeleteOutlined onClick={() => {}} />
+          <DeleteOutlined style={{color:"red"}} onClick={() => {
+              setOpenModal(true)
+              setBookId(record._id)
+            }} 
+          />
         </div>
       ),
     },
   ];
 
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log("params", pagination, filters, sorter, extra);
+  };
+
   const formatListBook = (data) => {
-    // const arr = [];
     const arr = data.map((item) => {
       return {
         ...item,
@@ -70,20 +80,40 @@ const TableData = () => {
     }
   };
 
+  const handleSetOpenModal = ()=>{
+    setOpenModal(false)
+  }
+
+  const handleDeleteBook = async ()=>{
+    try {
+      const res = await bookApi.delete(bookId)
+      await handleGetAllBook();
+    } catch (error) {
+      console.log("err: ", error);
+    }
+    finally{
+      setOpenModal(false)
+    }
+  }
+
   useEffect(() => {
     handleGetAllBook();
   }, []);
 
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
-  };
   return (
-    <Table
-      columns={columns}
-      dataSource={listBook}
-      onChange={onChange}
-      className="tableData"
-    />
+    <>
+      <Table
+        columns={columns}
+        dataSource={listBook}
+        onChange={onChange}
+        className="tableData"
+      />
+      {openModal && <ModalConfirm
+        openModal={openModal}
+        handleSetOpenModal={handleSetOpenModal}
+        callBack={handleDeleteBook}
+      />}
+    </>
   );
 };
 export default TableData;
