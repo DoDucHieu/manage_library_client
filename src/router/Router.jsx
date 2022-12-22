@@ -7,6 +7,7 @@ import HomePage from "../container/HomePage/index";
 import { DetailBook } from "../container/Book/DetailBook";
 import { AddBook } from "../container/Book/AddBook";
 import { Cart } from "../container/Cart/Cart";
+import { HomePageUser } from "../container/UserPage/HomePage/HomePageUser";
 
 
 const AuthWrapper = () => {
@@ -20,16 +21,19 @@ const AuthWrapper = () => {
 };
 
 export const Router = () => {
+  const role = useSelector(
+    (state) => state.userReducer.role,
+  ); 
   return (
     <>
       <Routes>
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route element={<AuthWrapper />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/detail/:id" element={<DetailBook />} />
-        <Route path="/add-book" element={<AddBook />} />
-        <Route path="/cart" element={<Cart />} />
+          <Route path="/" element={role==="admin" ? <HomePage />:<HomePageUser />} />
+          <Route path="/detail/:id" element={<DetailBook />} />
+          <Route path="/add-book" element={<AddBook />} />
+          <Route path="/cart" element={<Cart />} />
         </Route>
       </Routes>
     </>

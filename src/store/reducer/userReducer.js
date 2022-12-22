@@ -2,6 +2,7 @@ import { actionType } from "../action/actionType";
 
 const initialState = {
   userName: "",
+  role:"",
   accessToken: "",
   refreshToken: "",
 };
@@ -12,6 +13,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         userName: action.payload.userName,
+        role: action.payload.role,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
       };
@@ -19,6 +21,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         userName: action.payload.userName,
+        role: action.payload.role,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
       };
@@ -26,6 +29,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         userName: "",
+        role:"",
         accessToken: "",
         refreshToken: "",
       };

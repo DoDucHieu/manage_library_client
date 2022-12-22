@@ -12,7 +12,7 @@ const HomePage = () => {
       <div className="addBook-btn">
         <Button
           type="primary"
-          style={{marginBottom:16}}
+          style={{width: 150, height: 40, marginBottom:24}}
           onClick={() => {
             navigate("/add-book");
           }}

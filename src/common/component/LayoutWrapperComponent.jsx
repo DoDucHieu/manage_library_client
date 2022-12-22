@@ -14,9 +14,6 @@ const LayoutWrapperComponent = () => {
   const userAccessToken = useSelector(
     (state) => state.userReducer.accessToken,
   ); 
-  console.log("location: ", location.pathname);
-
-
   return (
     <>
       <Layout

@@ -27,6 +27,7 @@ export const DetailBook = () => {
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
+  const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
     handleGetDetailBook(params.id);
@@ -103,6 +104,39 @@ export const DetailBook = () => {
     setPreview(detailBook.imgUrl);
   };
 
+  const cancelValidateForm = ()=>{
+    form.setFields([
+      {
+        name: 'title',
+        errors: [],
+      },
+      {
+        name: 'author',
+        errors: [],
+      },
+      {
+        name: 'description',
+        errors: [],
+      },
+      {
+        name: 'datePublish',
+        errors: [],
+      },
+      {
+        name: 'pageNumber',
+        errors: [],
+      },
+      {
+        name: 'category',
+        errors: [],
+      },
+      {
+        name: 'price',
+        errors: [],
+      },
+    ]);
+  }
+
   return (
     <>
       {loading && <ModalLoading />}
@@ -136,7 +170,7 @@ export const DetailBook = () => {
                   ]}
                   style={{ display: "inline-block", width: "calc(50% - 8px)" }}
                 >
-                  <Input />
+                  <Input disabled={isDisabled}/>
                 </Form.Item>
                 <Form.Item
                   label="Tác giả"
@@ -150,7 +184,7 @@ export const DetailBook = () => {
                     marginLeft: 16,
                   }}
                 >
-                  <Input />
+                  <Input disabled={isDisabled}/>
                 </Form.Item>
               </Form.Item>
               <Form.Item
@@ -160,7 +194,7 @@ export const DetailBook = () => {
                   { required: true, message: "Mô tả không được bỏ trống" },
                 ]}
               >
-                <Input.TextArea rows={4} />
+                <Input.TextArea rows={4} disabled={isDisabled}/>
               </Form.Item>
               <Form.Item>
                 <Form.Item
@@ -174,7 +208,7 @@ export const DetailBook = () => {
                     },
                   ]}
                 >
-                  <DatePicker style={{ width: "100%" }} />
+                  <DatePicker style={{ width: "100%" }} disabled={isDisabled}/>
                 </Form.Item>
                 <Form.Item
                   label="Số trang"
@@ -188,7 +222,7 @@ export const DetailBook = () => {
                     { required: true, message: "Số trang không được bỏ trống" },
                   ]}
                 >
-                  <InputNumber style={{ width: "100%" }} />
+                  <InputNumber style={{ width: "100%" }} disabled={isDisabled}/>
                 </Form.Item>
               </Form.Item>
               <Form.Item>
@@ -200,8 +234,10 @@ export const DetailBook = () => {
                   ]}
                   style={{ display: "inline-block", width: "calc(50% - 8px)" }}
                 >
-                  <Select>
-                    <Select.Option value="demo">Demo</Select.Option>
+                  <Select disabled={isDisabled}>
+                    <Select.Option value="Khoa học">Khoa học</Select.Option>
+                    <Select.Option value="Toán học">Toán học</Select.Option>
+                    <Select.Option value="Thiên văn">Thiên văn</Select.Option>
                   </Select>
                 </Form.Item>
                 <Form.Item
@@ -216,37 +252,59 @@ export const DetailBook = () => {
                     marginLeft: 16,
                   }}
                 >
-                  <Input />
+                  <Input disabled={isDisabled}/>
                 </Form.Item>
               </Form.Item>
             </Form>
           </Col>
           <Col span={8}>
             <div className="upload">
-              <label for="file-upload" className="custom-file-upload">
+              {!isDisabled && <label for="file-upload" className="custom-file-upload">
                 Upload
-              </label>
+              </label>}
               <input type="file" id="file-upload" onChange={onSelectFile} />
               {preview && <img src={preview} className="preview-img" />}
             </div>
           </Col>
         </Row>
-        <Button
-          htmlType="submit"
-          form="addBook-form"
-          type="primary"
-          style={{ width: 100, marginTop: 32 }}
-        >
-          Chỉnh sửa
-        </Button>
-        <Button
-          style={{ width: 100, marginTop: 32, marginLeft: 16 }}
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          Quay lại
-        </Button>
+        {isDisabled ? (
+        <div className="detail-btn">
+          <div
+            style={{ width: 160, height:40, backgroundColor:"#1677ff", cursor:"pointer", borderRadius:3, display:"flex", justifyContent:"center", alignItems:"center", color:"white"}}
+            onClick={()=>{setIsDisabled(false)}}
+          >
+            Chỉnh sửa
+          </div>
+          <Button
+            style={{ width: 160, height:40, marginLeft: 16 }}
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Trở về
+          </Button>
+        </div>)
+        :(
+        <div className="detail-btn">
+          <Button
+            htmlType="submit"
+            form="addBook-form"
+            type="primary"
+            style={{ width: 160, height:40}}
+          >
+            Lưu
+          </Button>
+          <Button
+            style={{ width: 160, height:40, marginLeft: 16 }}
+            onClick={() => {
+              setIsDisabled(true)
+              cancelValidateForm()
+              handleFillForm()
+            }}
+          >
+            Hủy
+          </Button>
+        </div>)}
       </Card>
     </>
   );
