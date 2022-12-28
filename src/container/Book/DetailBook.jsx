@@ -237,9 +237,9 @@ export const DetailBook = () => {
                   style={{ display: "inline-block", width: "calc(50% - 8px)" }}
                 >
                   <Select disabled={isDisabled}>
-                    <Select.Option value="Khoa học">Khoa học</Select.Option>
-                    <Select.Option value="Toán học">Toán học</Select.Option>
-                    <Select.Option value="Thiên văn">Thiên văn</Select.Option>
+                    <Select.Option value="Truyen">Truyện</Select.Option>
+                    <Select.Option value="Sach">Sách</Select.Option>
+                    <Select.Option value="Bao">Báo</Select.Option>
                   </Select>
                 </Form.Item>
                 <Form.Item

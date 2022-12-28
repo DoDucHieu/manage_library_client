@@ -164,7 +164,10 @@ export const AddBook = () => {
                   style={{ display: "inline-block", width: "calc(50% - 8px)" }}
                 >
                   <Select>
-                    <Select.Option value="demo">Demo</Select.Option>
+                    <Select.Option value="Truyện">Truyện</Select.Option>
+                    <Select.Option value="Sách">Sách</Select.Option>
+                    <Select.Option value="Báo">Báo</Select.Option>
+      
                   </Select>
                 </Form.Item>
                 <Form.Item
