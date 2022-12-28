@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { cartApi } from "../../api/cartApi";
 import { actionType } from "./actionType";
 
@@ -26,6 +27,7 @@ const getAllCart = (userName) => {
 const addToCart = (data) => {
   return async (dispatch, getState) => {
     await cartApi.create(data);
+    toast.success("Thêm thành công");
     let arr = [...getState().cartReducer.listBooks];
     let checkExist = false;
     arr.forEach((book) => {
@@ -47,6 +49,7 @@ const addToCart = (data) => {
 const removeFromCart = (data) => {
   return async (dispatch, getState) => {
     await cartApi.delete({ data });
+    toast.success("Hủy đặt hàng thành công");
     const arr = getState().cartReducer.listBooks;
     const newArr = arr.filter((item) => {
       return item.bookId !== data.bookId;

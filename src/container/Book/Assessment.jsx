@@ -1,5 +1,6 @@
 import { Button, Rate } from "antd";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { assessmentApi } from "../../api/assessmentApi";
 
 export const Assessment = ({ userName, bookId }) => {
@@ -13,6 +14,7 @@ export const Assessment = ({ userName, bookId }) => {
         bookId: bookId,
       };
       await assessmentApi.create(data);
+      toast.success("Đánh giá thành công");
     } catch (e) {
       console.log("error: ", e);
     }

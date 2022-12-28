@@ -4,11 +4,11 @@ import {
   FileOutlined,
   HomeOutlined,
   UserOutlined,
-  LogoutOutlined
+  LogoutOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useNavigate } from "react-router-dom";
-import {useDispatch} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../../store/action/userAction";
 
 function getItem(label, key, icon, children) {
@@ -33,6 +33,7 @@ const items = [
 export const SideBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userName = useSelector((state) => state.userReducer.userName);
 
   const handleNavigate = (key) => {
     switch (Number(key)) {
@@ -49,14 +50,13 @@ export const SideBar = () => {
     }
   };
 
-  const handleSignOut = async () =>{
+  const handleSignOut = async () => {
     try {
       await dispatch(userAction.signOut());
-    } 
-    catch (e) {
-        console.log(e);
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   return (
     <Layout.Sider>
@@ -75,14 +75,19 @@ export const SideBar = () => {
       />
       <div className="sidebar_login-logout">
         <div className="user-infor">
-          <img src={libraryImg} alt="" className="avatar"/>
+          <img src={libraryImg} alt="" className="avatar" />
           <div className="infor">
-            <label>User name</label>
+            <label>{userName}</label>
             <label>Email@gmail.com</label>
           </div>
         </div>
         <div className="logout-icon">
-          <LogoutOutlined style={{color:"white", fontSize:20, cursor:"pointer"}} onClick={()=>{handleSignOut()}}/>
+          <LogoutOutlined
+            style={{ color: "white", fontSize: 20, cursor: "pointer" }}
+            onClick={() => {
+              handleSignOut();
+            }}
+          />
         </div>
       </div>
     </Layout.Sider>

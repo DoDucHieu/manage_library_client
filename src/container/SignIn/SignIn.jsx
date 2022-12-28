@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../store/action/userAction";
 
-import img from "../../asset/img/docker.jpeg";
+import img from "../../asset/img/library.png";
 import loginIcon from "../../asset/img/login.png";
 import { useEffect } from "react";
 

@@ -9,6 +9,8 @@ import { cartApi } from "../../api/cartApi";
 import { cartAction } from "../../store/action/cartAction";
 import { Comment } from "./Comment";
 import { Assessment } from "./Assessment";
+import moment from "moment";
+import CONSTANT from "../../common/constant";
 
 export const DetailBookUser = () => {
   const params = useParams();
@@ -76,6 +78,11 @@ export const DetailBookUser = () => {
             <h3 className="title">{detailBook?.title}</h3>
             <p className="author">{`Tác giả: ${detailBook?.author}`}</p>
             <Assessment userName={userName} bookId={params.id} />
+            <p>
+              Ngày xuất bản:{" "}
+              {moment(detailBook?.datePublish).format(CONSTANT.FORMAT_DATE)}
+            </p>
+            <p>Thể loại: {detailBook?.category}</p>
             <p className="price">{`Đơn giá: ${detailBook?.price} VNĐ`}</p>
             <div className="quantity">
               <label>Số lượng mua:</label>

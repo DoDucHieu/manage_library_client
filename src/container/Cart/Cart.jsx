@@ -4,11 +4,13 @@ import { ModalLoading } from "../../common/component/Modal/ModalLoading";
 import "../../asset/style/cart/Cart.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { cartAction } from "../../store/action/cartAction";
+import { useNavigate } from "react-router-dom";
 
 export const Cart = () => {
   const [loading, setLoading] = useState(false);
-  const userName = useSelector((state) => state.userReducer.userName);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userName = useSelector((state) => state.userReducer.userName);
   const listBooks = useSelector((state) => state.cartReducer.listBooks);
 
   useEffect(() => {
@@ -44,12 +46,19 @@ export const Cart = () => {
   return (
     <>
       {loading && <ModalLoading />}
-      {listBooks &&
+      {listBooks && listBooks.length > 0 ? (
         listBooks.map((item, index) => {
           console.log(index);
           return (
             <div className="cart">
-              <img src={item?.imgUrl} alt="" className="bookImg" />
+              <img
+                src={item?.imgUrl}
+                alt=""
+                className="bookImg"
+                onClick={() => {
+                  navigate(`/detail/${item.bookId}`);
+                }}
+              />
               <div className="cart-right">
                 <div className="bookDetailInfor">
                   <h3>{item?.title}</h3>
@@ -72,7 +81,10 @@ export const Cart = () => {
               </div>
             </div>
           );
-        })}
+        })
+      ) : (
+        <h1 style={{ color: "red" }}>Không có sản phẩm nào trong giỏ hàng</h1>
+      )}
     </>
   );
 };
