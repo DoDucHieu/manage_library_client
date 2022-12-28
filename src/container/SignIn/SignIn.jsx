@@ -9,24 +9,20 @@ import { useEffect } from "react";
 
 export const SignIn = () => {
   const [loginForm] = Form.useForm();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const userAccessToken = useSelector(
-    (state) => state.userReducer.accessToken,
-  );  
-  useEffect(()=>{
-    userAccessToken && navigate("/")
-  },[userAccessToken])
-  
+  const userAccessToken = useSelector((state) => state.userReducer.accessToken);
+  useEffect(() => {
+    userAccessToken && navigate("/");
+  }, [userAccessToken]);
+
   const onFinish = async (values) => {
-    console.log("Success:", values);
     try {
       await dispatch(userAction.signIn(values));
-    } 
-    catch (e) {
-        console.log(e);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -95,7 +91,14 @@ export const SignIn = () => {
                 Sign in
               </Button>
             </Form.Item>
-            <span style={{color:"green", fontSize:14, cursor:"pointer"}} onClick={()=>{navigate("/sign-up")}}>Sign up here!</span>
+            <span
+              style={{ color: "green", fontSize: 14, cursor: "pointer" }}
+              onClick={() => {
+                navigate("/sign-up");
+              }}
+            >
+              Sign up here!
+            </span>
           </Form>
         </div>
       </Col>

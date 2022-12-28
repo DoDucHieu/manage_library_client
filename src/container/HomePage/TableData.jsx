@@ -10,7 +10,7 @@ import { ModalConfirm } from "../../common/component/Modal/ModalConfirm";
 const TableData = () => {
   const navigate = useNavigate();
   const [listBook, setListBook] = useState([]);
-  const[openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [bookId, setBookId] = useState(undefined);
   const columns = [
     {
@@ -40,15 +40,17 @@ const TableData = () => {
       render: (text, record) => (
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <EyeOutlined
-            style={{color:"blue"}}
+            style={{ color: "blue" }}
             onClick={() => {
               navigate(`/detail/${record._id}`);
             }}
           />
-          <DeleteOutlined style={{color:"red"}} onClick={() => {
-              setOpenModal(true)
-              setBookId(record._id)
-            }} 
+          <DeleteOutlined
+            style={{ color: "red" }}
+            onClick={() => {
+              setOpenModal(true);
+              setBookId(record._id);
+            }}
           />
         </div>
       ),
@@ -73,28 +75,26 @@ const TableData = () => {
     try {
       const res = await bookApi.getAll();
       const data = formatListBook(res?.data?.listBook);
-      console.log("data: ", data);
       setListBook(data);
     } catch (error) {
       console.log("err", error);
     }
   };
 
-  const handleSetOpenModal = ()=>{
-    setOpenModal(false)
-  }
+  const handleSetOpenModal = () => {
+    setOpenModal(false);
+  };
 
-  const handleDeleteBook = async ()=>{
+  const handleDeleteBook = async () => {
     try {
-      const res = await bookApi.delete(bookId)
+      const res = await bookApi.delete(bookId);
       await handleGetAllBook();
     } catch (error) {
       console.log("err: ", error);
+    } finally {
+      setOpenModal(false);
     }
-    finally{
-      setOpenModal(false)
-    }
-  }
+  };
 
   useEffect(() => {
     handleGetAllBook();
@@ -108,11 +108,13 @@ const TableData = () => {
         onChange={onChange}
         className="tableData"
       />
-      {openModal && <ModalConfirm
-        openModal={openModal}
-        handleSetOpenModal={handleSetOpenModal}
-        callBack={handleDeleteBook}
-      />}
+      {openModal && (
+        <ModalConfirm
+          openModal={openModal}
+          handleSetOpenModal={handleSetOpenModal}
+          callBack={handleDeleteBook}
+        />
+      )}
     </>
   );
 };

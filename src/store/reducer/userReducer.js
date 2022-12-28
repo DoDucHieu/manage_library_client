@@ -2,7 +2,7 @@ import { actionType } from "../action/actionType";
 
 const initialState = {
   userName: "",
-  role:"",
+  role: "",
   accessToken: "",
   refreshToken: "",
 };
@@ -12,8 +12,8 @@ export const userReducer = (state = initialState, action) => {
     case actionType.SIGN_UP_SUCCESS:
       return {
         ...state,
-        userName: action.payload.userName,
-        role: action.payload.role,
+        userName: action.payload.userInfor.userName,
+        role: action.payload.userInfor.role,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
       };
@@ -29,7 +29,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         userName: "",
-        role:"",
+        role: "",
         accessToken: "",
         refreshToken: "",
       };

@@ -6,26 +6,21 @@ import { userAction } from "../../store/action/userAction";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-
 export const SignUp = () => {
   const [signUpForm] = Form.useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userAccessToken = useSelector(
-    (state) => state.userReducer.accessToken,
-  );  
-  useEffect(()=>{
-    userAccessToken && navigate("/")
-  },[userAccessToken])
+  const userAccessToken = useSelector((state) => state.userReducer.accessToken);
+  useEffect(() => {
+    userAccessToken && navigate("/");
+  }, [userAccessToken]);
 
-  const onFinish = async(values) => {
-    console.log("Success:", values);
+  const onFinish = async (values) => {
     try {
       await dispatch(userAction.signUp(values));
-    } 
-    catch (e) {
-        console.log(e);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -112,10 +107,17 @@ export const SignUp = () => {
                 style={{ width: "100%", marginTop: 32 }}
                 size="large"
               >
-                Login
+                Sign up
               </Button>
             </Form.Item>
-            <span style={{color:"green", fontSize:14, cursor:"pointer"}} onClick={()=>{navigate("/sign-in")}}>Back to sign in!</span>
+            <span
+              style={{ color: "green", fontSize: 14, cursor: "pointer" }}
+              onClick={() => {
+                navigate("/sign-in");
+              }}
+            >
+              Back to sign in!
+            </span>
           </Form>
         </div>
       </Col>

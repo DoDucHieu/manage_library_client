@@ -1,0 +1,21 @@
+.bookComment{
+    overflow: hidden;
+    .addComment{
+        display: flex;
+        align-items: center;
+        TextArea{
+            margin-left: 24px;
+            margin-right: 16px;
+            background-color: unset;
+        }
+    }
+    .listComment{
+        height: 100%;
+        margin-bottom: 40px;
+        overflow: scroll;
+    }
+    .listComment::-webkit-scrollbar {
+        display: none;
+    }
+}
+

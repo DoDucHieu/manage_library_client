@@ -8,12 +8,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 
-
 const LayoutWrapperComponent = () => {
   const location = useLocation();
-  const userAccessToken = useSelector(
-    (state) => state.userReducer.accessToken,
-  ); 
+  const userAccessToken = useSelector((state) => state.userReducer.accessToken);
   return (
     <>
       <Layout
@@ -23,11 +20,10 @@ const LayoutWrapperComponent = () => {
         className="layoutWrapperComponent"
       >
         <ToastContainer />
-        {userAccessToken&& <SideBar />}
+        {userAccessToken && <SideBar />}
         <Layout className="site-layout">
           {userAccessToken && <Header />}
           <Content />
-          {/* {!userInfor?.isLoggedIn && <Footer />} */}
         </Layout>
       </Layout>
     </>

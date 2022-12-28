@@ -1,0 +1,22 @@
+.cart{
+    display: flex;
+    width: 100%;
+    padding: 0px 200px;
+    margin-bottom: 16px;
+
+    .bookImg{
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        margin-right: 32px;
+    }
+
+    .cart-right{
+        display: flex;
+        padding-top: 24px;
+        .bookDetailInfor{
+            width: 300px;
+        }
+    }
+
+}

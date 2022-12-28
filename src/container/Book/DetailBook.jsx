@@ -59,7 +59,6 @@ export const DetailBook = () => {
     const imageRef = ref(storage, `image/${selectedFile.name + v4()}`);
     await uploadBytesResumable(imageRef, selectedFile);
     const res = await getDownloadURL(imageRef);
-    console.log("upload success!", res);
     return res;
   };
 
@@ -104,38 +103,38 @@ export const DetailBook = () => {
     setPreview(detailBook.imgUrl);
   };
 
-  const cancelValidateForm = ()=>{
+  const cancelValidateForm = () => {
     form.setFields([
       {
-        name: 'title',
+        name: "title",
         errors: [],
       },
       {
-        name: 'author',
+        name: "author",
         errors: [],
       },
       {
-        name: 'description',
+        name: "description",
         errors: [],
       },
       {
-        name: 'datePublish',
+        name: "datePublish",
         errors: [],
       },
       {
-        name: 'pageNumber',
+        name: "pageNumber",
         errors: [],
       },
       {
-        name: 'category',
+        name: "category",
         errors: [],
       },
       {
-        name: 'price',
+        name: "price",
         errors: [],
       },
     ]);
-  }
+  };
 
   return (
     <>
@@ -170,7 +169,7 @@ export const DetailBook = () => {
                   ]}
                   style={{ display: "inline-block", width: "calc(50% - 8px)" }}
                 >
-                  <Input disabled={isDisabled}/>
+                  <Input disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item
                   label="Tác giả"
@@ -184,7 +183,7 @@ export const DetailBook = () => {
                     marginLeft: 16,
                   }}
                 >
-                  <Input disabled={isDisabled}/>
+                  <Input disabled={isDisabled} />
                 </Form.Item>
               </Form.Item>
               <Form.Item
@@ -194,7 +193,7 @@ export const DetailBook = () => {
                   { required: true, message: "Mô tả không được bỏ trống" },
                 ]}
               >
-                <Input.TextArea rows={4} disabled={isDisabled}/>
+                <Input.TextArea rows={4} disabled={isDisabled} />
               </Form.Item>
               <Form.Item>
                 <Form.Item
@@ -208,7 +207,7 @@ export const DetailBook = () => {
                     },
                   ]}
                 >
-                  <DatePicker style={{ width: "100%" }} disabled={isDisabled}/>
+                  <DatePicker style={{ width: "100%" }} disabled={isDisabled} />
                 </Form.Item>
                 <Form.Item
                   label="Số trang"
@@ -222,7 +221,10 @@ export const DetailBook = () => {
                     { required: true, message: "Số trang không được bỏ trống" },
                   ]}
                 >
-                  <InputNumber style={{ width: "100%" }} disabled={isDisabled}/>
+                  <InputNumber
+                    style={{ width: "100%" }}
+                    disabled={isDisabled}
+                  />
                 </Form.Item>
               </Form.Item>
               <Form.Item>
@@ -252,59 +254,74 @@ export const DetailBook = () => {
                     marginLeft: 16,
                   }}
                 >
-                  <Input disabled={isDisabled}/>
+                  <Input disabled={isDisabled} />
                 </Form.Item>
               </Form.Item>
             </Form>
           </Col>
           <Col span={8}>
             <div className="upload">
-              {!isDisabled && <label for="file-upload" className="custom-file-upload">
-                Upload
-              </label>}
+              {!isDisabled && (
+                <label for="file-upload" className="custom-file-upload">
+                  Upload
+                </label>
+              )}
               <input type="file" id="file-upload" onChange={onSelectFile} />
               {preview && <img src={preview} className="preview-img" />}
             </div>
           </Col>
         </Row>
         {isDisabled ? (
-        <div className="detail-btn">
-          <div
-            style={{ width: 160, height:40, backgroundColor:"#1677ff", cursor:"pointer", borderRadius:3, display:"flex", justifyContent:"center", alignItems:"center", color:"white"}}
-            onClick={()=>{setIsDisabled(false)}}
-          >
-            Chỉnh sửa
+          <div className="detail-btn">
+            <div
+              style={{
+                width: 160,
+                height: 40,
+                backgroundColor: "#1677ff",
+                cursor: "pointer",
+                borderRadius: 3,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "white",
+              }}
+              onClick={() => {
+                setIsDisabled(false);
+              }}
+            >
+              Chỉnh sửa
+            </div>
+            <Button
+              style={{ width: 160, height: 40, marginLeft: 16 }}
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Trở về
+            </Button>
           </div>
-          <Button
-            style={{ width: 160, height:40, marginLeft: 16 }}
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            Trở về
-          </Button>
-        </div>)
-        :(
-        <div className="detail-btn">
-          <Button
-            htmlType="submit"
-            form="addBook-form"
-            type="primary"
-            style={{ width: 160, height:40}}
-          >
-            Lưu
-          </Button>
-          <Button
-            style={{ width: 160, height:40, marginLeft: 16 }}
-            onClick={() => {
-              setIsDisabled(true)
-              cancelValidateForm()
-              handleFillForm()
-            }}
-          >
-            Hủy
-          </Button>
-        </div>)}
+        ) : (
+          <div className="detail-btn">
+            <Button
+              htmlType="submit"
+              form="addBook-form"
+              type="primary"
+              style={{ width: 160, height: 40 }}
+            >
+              Lưu
+            </Button>
+            <Button
+              style={{ width: 160, height: 40, marginLeft: 16 }}
+              onClick={() => {
+                setIsDisabled(true);
+                cancelValidateForm();
+                handleFillForm();
+              }}
+            >
+              Hủy
+            </Button>
+          </div>
+        )}
       </Card>
     </>
   );

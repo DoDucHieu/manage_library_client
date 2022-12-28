@@ -24,7 +24,6 @@ export const AddBook = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
 
-  console.log("CHECK: ", selectedFile);
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined);
@@ -47,7 +46,6 @@ export const AddBook = () => {
     const imageRef = ref(storage, `image/${selectedFile.name + v4()}`);
     await uploadBytesResumable(imageRef, selectedFile);
     const res = await getDownloadURL(imageRef);
-    console.log("upload success!", res);
     return res;
   };
 
